@@ -9,6 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             "outputCapture": "std",
+            "runtimeArgs": [],
             "skipFiles": [
                 "<node_internals>/**"
             ],
