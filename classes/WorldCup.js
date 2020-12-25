@@ -78,11 +78,6 @@ export default class WorldCup{
            
         }
         
-
-       console.log('Grupo',this.schedule);
-       console.log('------------------------------------');
-
-       
     }
     getCountriesNameGroups(){ // con este método obtenemos los nombres de los países de cada grupo
         
@@ -93,17 +88,93 @@ export default class WorldCup{
                 pais.push(name.nameCountry);
 
             });
-            this.setLocalGroups(pais); // pasamos los países de cada grupo para configurar las jornadas
-                                       // de cada grupo y los equipos
-
+            // pasamos los países de cada grupo para configurar las jornadas
+            // de cada grupo y los equipos
+            this.setLocalGroups(pais); 
+            this.setAwayGroups(pais); 
+            this.setLastTeamGroups(pais); 
         });
 
     }
     setLocalGroups(namesCountriesPerGroup){
 
+        const maxHomeTeams = this.groups[0].length-2;
+        let teamIndex=0;
+        this.schedule.forEach(matchDay =>{
+
+            matchDay.forEach(match =>{
+
+                match[0]= namesCountriesPerGroup[teamIndex];
+                teamIndex++;
+
+                if(teamIndex > maxHomeTeams){
+
+                    teamIndex = 0;
+                }
+            });
+
+        });
+        
+  
+    }
+
+    setAwayGroups(namesCountriesPerGroup){
+
+        const maxAwayTeams = this.groups[0].length-2;
+        let teamIndex= maxAwayTeams;
+        this.schedule.forEach(matchDay =>{
+
+            let isFirstMatch = true;
+            matchDay.forEach(match =>{
+
+                
+                if(isFirstMatch){
+
+                    isFirstMatch = false;
+                }else{
+
+                    match[1]= namesCountriesPerGroup[teamIndex];
+                    teamIndex--;
+    
+                    if(teamIndex < 0){
+    
+                        teamIndex = maxAwayTeams;
+                    }
+                }
+            });
+
+        });
+        
+        
+    }
+
+
+    setLastTeamGroups(namesCountriesPerGroup){
 
         
+        let maxDayNumber = 1;
+        const lastTeamName = namesCountriesPerGroup[namesCountriesPerGroup.length-1];
+
+        this.schedule.forEach(matchDay =>{
+
+            const firstMatch = matchDay[0];
+
+            if(maxDayNumber %2 == 0){
+
+                firstMatch[1]=firstMatch[0];
+                firstMatch[0]=lastTeamName;
+
+            }else{
+
+                firstMatch[1]= lastTeamName;
+            }
+            maxDayNumber++;
+            
+        });
+
+        console.table(this.schedule);
         
+
     }
    
 }
