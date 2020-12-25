@@ -12,6 +12,9 @@ Array.prototype.shuffle=function()
     }
     return this;
 }
+const LOCAL_COUNTRY = 0;
+const AWAY_COUNTRY = 1;
+
 export default class WorldCup{
 
     constructor (nameChampionShip,countries=[]){
@@ -44,6 +47,7 @@ export default class WorldCup{
         });
         
       
+        console.log(this.groups);
         
     }
 
@@ -104,7 +108,7 @@ export default class WorldCup{
 
             matchDay.forEach(match =>{
 
-                match[0]= namesCountriesPerGroup[teamIndex];
+                match[LOCAL_COUNTRY]= namesCountriesPerGroup[teamIndex];
                 teamIndex++;
 
                 if(teamIndex > maxHomeTeams){
@@ -133,7 +137,7 @@ export default class WorldCup{
                     isFirstMatch = false;
                 }else{
 
-                    match[1]= namesCountriesPerGroup[teamIndex];
+                    match[AWAY_COUNTRY]= namesCountriesPerGroup[teamIndex];
                     teamIndex--;
     
                     if(teamIndex < 0){
@@ -157,16 +161,16 @@ export default class WorldCup{
 
         this.schedule.forEach(matchDay =>{
 
-            const firstMatch = matchDay[0];
+            const firstMatch = matchDay[LOCAL_COUNTRY];
 
             if(maxDayNumber %2 == 0){
 
-                firstMatch[1]=firstMatch[0];
-                firstMatch[0]=lastTeamName;
+                firstMatch[AWAY_COUNTRY]=firstMatch[LOCAL_COUNTRY];
+                firstMatch[LOCAL_COUNTRY]=lastTeamName;
 
             }else{
 
-                firstMatch[1]= lastTeamName;
+                firstMatch[AWAY_COUNTRY]= lastTeamName;
             }
             maxDayNumber++;
             
