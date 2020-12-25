@@ -23,12 +23,17 @@ export default class WorldCup{
         this.countries=[];
         this.groups=[];
         this.schedule=[];
+     
         this.GroupsWorldCup(countries);
         this.scheduleGroup();
         this.getCountriesNameGroups();
+     
       
     }
 
+    setupConfigGroups(){
+
+    }
     GroupsWorldCup(nameCountries){ //Recibimos el nombre de los países participantes.
 
         nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
