@@ -19,49 +19,91 @@ export default class WorldCup{
         this.nameChampionShip=nameChampionShip;
         this.countries=[];
         this.groups=[];
-        this.drawGroups(countries);
-
-
+        this.schedule=[];
+        this.GroupsWorldCup(countries);
+        this.scheduleGroup();
+        this.getCountriesNameGroups();
+      
     }
 
-    drawGroups(countries){ //SORTEO 
+    GroupsWorldCup(nameCountries){ //Recibimos el nombre de los países participantes.
 
-        countries.shuffle(); // Desordenamos el array antes de comenzar el sorteo.
+        nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
         let i=1;
-        let countriesGroup = []; //Inicializo con let porque luego vacío el elemento
-        console.log(countries);
-      
-        countries.forEach (country=>{
+        let countriesGroup = []; 
+        nameCountries.forEach (nameCountry=>{
 
-            countriesGroup.push(country); //AÑADIMOS LOS PAÍSES A CADA GRUPO
-            if(i===4){ // 
-                this.groups.push(countriesGroup); //VAMOS GENERANDO LOS GRUPOS
-                countriesGroup=[]; //VACÍAMOS EL ARRAY AUXILIAR
+            const customizedCountry=this.customizeGroups(nameCountry); 
+            countriesGroup.push(customizedCountry);//Los países ya tienen sus propiedades.
+            if(i===4){ 
+                this.groups.push(countriesGroup); //Vamos generando los grupos
+                countriesGroup=[]; //vacíamos el array auxiliar.
                 i=0;
             }
             i++;
         });
-
-        console.log(this.groups);
         
+      
         
-       
-        
-
-
     }
 
-    customizeGroups(country){
+    customizeGroups(nameCountry){
 
         return{
-            country,
+            nameCountry,
             matchesWon:0,
             matchesDraw:0,
             matchesLost:0,
+           
         }
 
     }
- 
-  
+    
 
+    scheduleGroup(){
+
+        const numMatchDays = this.groups[0].length-1; // De cualquier grupo cogemos su longitud
+        const numMatchesGroups = this.groups[0].length/2
+        for (let i=0;i<numMatchDays;i++){
+
+            const matchDayGroup = [];
+            for (let j=0;j<numMatchesGroups;j++){
+
+                const match = ['',''];
+                matchDayGroup.push(match);
+            }
+
+            this.schedule.push(matchDayGroup);
+
+           
+        }
+        
+
+       console.log('Grupo',this.schedule);
+       console.log('------------------------------------');
+
+       
+    }
+    getCountriesNameGroups(){ // con este método obtenemos los nombres de los países de cada grupo
+        
+        this.groups.forEach(group=>{
+            const pais = [];
+            group.forEach(name=>{
+
+                pais.push(name.nameCountry);
+
+            });
+            this.setLocalGroups(pais); // pasamos los países de cada grupo para configurar las jornadas
+                                       // de cada grupo y los equipos
+
+        });
+
+    }
+    setLocalGroups(namesCountriesPerGroup){
+
+
+        
+        
+    }
+   
 }
