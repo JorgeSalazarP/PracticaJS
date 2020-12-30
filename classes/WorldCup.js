@@ -12,47 +12,57 @@ Array.prototype.shuffle=function()
     }
     return this;
 }
-const LOCAL_COUNTRY = 0;
-const AWAY_COUNTRY = 1;
+
+export const LOCAL_COUNTRY = 0;
+export const AWAY_COUNTRY = 1;
+
+
+
 
 export default class WorldCup{
 
     constructor (nameChampionShip,countries=[]){
 
         this.nameChampionShip=nameChampionShip;
-        this.countries=[];
         this.groups=[];
         this.schedule=[];
-     
+        this.schedulePerGroup=[];
         this.GroupsWorldCup(countries);
-        this.scheduleGroup();
-        this.getCountriesNameGroups();
-     
-      
+        
+        this.summaries=[];
+        
+        
     }
 
-    setupConfigGroups(){
+    /**********CREAMOS LOS 8 GRUPOS CON SUS CALENDARIOS Y CUSTOMIZAMOS LOS PAÍSES**********/
 
-    }
     GroupsWorldCup(nameCountries){ //Recibimos el nombre de los países participantes.
 
-        nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
+        //nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
         let i=1;
-        let countriesGroup = []; 
+        let group = []; 
+        let nameCountryOfGroup = [];
         nameCountries.forEach (nameCountry=>{
 
-            const customizedCountry=this.customizeGroups(nameCountry); 
-            countriesGroup.push(customizedCountry);//Los países ya tienen sus propiedades.
+            nameCountryOfGroup.push(nameCountry); //Capturamos el nombre de los países de cada grupo
+            const customizedCountry=this.customizeGroups(nameCountry); //Customizamos cada nombre
+            group.push(customizedCountry);//Los países ya tienen sus propiedades.
+
             if(i===4){ 
-                this.groups.push(countriesGroup); //Vamos generando los grupos
-                countriesGroup=[]; //vacíamos el array auxiliar.
+
+                this.groups.push(group); //Vamos generando los grupos, con los países customizados
+                this.setSchedule();
+                this.initCompositionMatches(nameCountryOfGroup);//solo mandamos los nombres para realizar el calendario.
+
                 i=0;
+                group=[];
+                nameCountryOfGroup=[];
+                
             }
             i++;
+            
         });
         
-      
-        console.log(this.groups);
         
     }
 
@@ -68,52 +78,52 @@ export default class WorldCup{
 
     }
     
-
-    scheduleGroup(){
-
+    setSchedule(){ // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS GRUPOS.
+       
         const numMatchDays = this.groups[0].length-1; // De cualquier grupo cogemos su longitud
-        const numMatchesGroups = this.groups[0].length/2
+        const numMatchesGroups = this.groups[0].length/2;
+
         for (let i=0;i<numMatchDays;i++){
 
             const matchDayGroup = [];
             for (let j=0;j<numMatchesGroups;j++){
-
+        
                 const match = ['',''];
                 matchDayGroup.push(match);
             }
-
+        
             this.schedule.push(matchDayGroup);
 
-           
+            
         }
+
+        this.schedulePerGroup.push(this.schedule); // UN MISMO CALENDARIO PARA GRUPO
+        
+
         
     }
-    getCountriesNameGroups(){ // con este método obtenemos los nombres de los países de cada grupo
+    
+    //ORGANIZAMOS LOS PARTIDOS POR GRUPO.
+    initCompositionMatches(namesCountriesGroup){
+
+        this.scheduleLocalCountries(namesCountriesGroup);
+        this.scheduleAwayCountries(namesCountriesGroup);
+        this.scheduleLastCountries(namesCountriesGroup);
+        this.schedule=[]; //Y OTRA VEZ VACÍAMOS EL CALENDARIO PARA RELLENAR OTRO GRUPO.
         
-        this.groups.forEach(group=>{
-            const pais = [];
-            group.forEach(name=>{
-
-                pais.push(name.nameCountry);
-
-            });
-            // pasamos los países de cada grupo para configurar las jornadas
-            // de cada grupo y los equipos
-            this.setLocalGroups(pais); 
-            this.setAwayGroups(pais); 
-            this.setLastTeamGroups(pais); 
-        });
 
     }
-    setLocalGroups(namesCountriesPerGroup){
 
-        const maxHomeTeams = this.groups[0].length-2;
+    scheduleLocalCountries(namesCountriesGroup){
+        
+        
+        const maxHomeTeams = namesCountriesGroup.length-2;
+        
         let teamIndex=0;
-        this.schedule.forEach(matchDay =>{
 
+           this.schedule.forEach(matchDay =>{
             matchDay.forEach(match =>{
-
-                match[LOCAL_COUNTRY]= namesCountriesPerGroup[teamIndex];
+                match[LOCAL_COUNTRY]= namesCountriesGroup[teamIndex];
                 teamIndex++;
 
                 if(teamIndex > maxHomeTeams){
@@ -121,28 +131,26 @@ export default class WorldCup{
                     teamIndex = 0;
                 }
             });
-
         });
+
+    
         
-  
     }
 
-    setAwayGroups(namesCountriesPerGroup){
+    scheduleAwayCountries(namesCountriesGroup){
 
-        const maxAwayTeams = this.groups[0].length-2;
+        const maxAwayTeams = namesCountriesGroup.length-2;
         let teamIndex= maxAwayTeams;
         this.schedule.forEach(matchDay =>{
-
             let isFirstMatch = true;
             matchDay.forEach(match =>{
 
-                
                 if(isFirstMatch){
 
                     isFirstMatch = false;
                 }else{
 
-                    match[AWAY_COUNTRY]= namesCountriesPerGroup[teamIndex];
+                    match[AWAY_COUNTRY]= namesCountriesGroup[teamIndex];
                     teamIndex--;
     
                     if(teamIndex < 0){
@@ -154,15 +162,15 @@ export default class WorldCup{
 
         });
         
+      
         
     }
 
 
-    setLastTeamGroups(namesCountriesPerGroup){
-
-        
+    scheduleLastCountries(namesCountriesGroup){
+     
         let maxDayNumber = 1;
-        const lastTeamName = namesCountriesPerGroup[namesCountriesPerGroup.length-1];
+        const lastTeamName = namesCountriesGroup[namesCountriesGroup.length-1];
 
         this.schedule.forEach(matchDay =>{
 
@@ -179,11 +187,47 @@ export default class WorldCup{
             }
             maxDayNumber++;
             
+            
         });
-
-        console.table(this.schedule);
         
+        
+        
+    } 
+    startWorldCup(){
+      
+        this.schedule.forEach(matchGroupDay=>{
+
+            const matchGroupSummary = {
+
+                result:[],
+                standings:null
+            }
+            matchGroupDay.forEach(match=>{
+
+                const resultMatch = this.playMatch(match);
+                this.updateCountry(resultMatch);
+                matchGroupSummary.result.push(resultMatch);
+            
+            });
+
+            this.getLeagueStandings();
+            matchGroupSummary.standings=this.groups.map(group=>Object.assign({},group));
+            this.summaries.push(matchGroupSummary);
+        });
+       
+    }
+    playMatch(match){
+
+        throw new Error ('Play method not implemented');
+    }
+    updateCountry(resultMatch){
+
+        throw new Error ('updateCountry method not implemented');
+    }
+
+   getLeagueStandings(){
+
+        throw new Error ('getLeagueStandings method not implemented');
 
     }
-   
 }
