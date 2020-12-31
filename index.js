@@ -1,8 +1,8 @@
 import {countriesWorldCup} from './countries.js';
 import WorldCup from './classes/WorldCup.js';
 import Groups from './classes/Groups.js';
-const letterGroup =['A','B','C','D','E','F','G','H'];
 
+export const letterGroup =['A','B','C','D','E','F','G','H'];
 
 const championShip = new Groups('World Cup Spain 2021',countriesWorldCup);
 
@@ -22,18 +22,17 @@ championShip.groups.forEach((group,index)=>{
 
 function showMatchesGroup(index){
 
-    
     let i=0;
-    
     championShip.schedulePerGroup[index].forEach(matchDay=>{
         console.log('');
         console.log(`Jornada ${i+1}`);
-        
+
         matchDay.forEach(match=>{
 
-        console.log(match.join(' vs '));
-       });
-       i++;
+            console.log(match.join(' vs '));
+        });
+
+        i++;
     });
     console.log('');
   
@@ -41,8 +40,17 @@ function showMatchesGroup(index){
 }
 
 
-//championShip.startWorldCup();
+championShip.startLeagueWorldCup();
 
 
+championShip.summaries.forEach((summary,index)=>{
+
+    if (index===0){
+
+        console.log(summary.results);
+        console.table(summary.standings);
+    }
+
+});
 
 

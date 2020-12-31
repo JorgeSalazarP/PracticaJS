@@ -34,71 +34,75 @@ export default class Groups extends WorldCup{
         }
         
     }
+    generateGoals(){
 
-   playMatch(match){
+        return Math.round(Math.random() * 10);
+    }
+    
+    playMatch(matchLocal,matchAway){
 
-        const homeGoals = this.generateGoals();
-        const awayGoals = this.generateGoals();
-
+        const homeGoals=this.generateGoals();
+        const awayGoals=this.generateGoals();
+        
         return{
 
-            homeCountry:match[LOCAL_COUNTRY],
+            homeTeam:matchLocal,
             homeGoals,
-            awayCountry:match[AWAY_COUNTRY],
+            awayTeam:matchAway,
             awayGoals
-
         }
 
     }
 
-    generateGoals(){
+    getCountryName(nameCountry,numGroup){
 
-        return Math.round(Math.random()*10);
-
+        return this.groups[numGroup].find(name=>name.nameCountry == nameCountry);
     }
-    
-    
-    getTeamOfName(nameCountry){
 
-        return this.groups.find(nameTeam => nameTeam.name == nameCountry);
-    }
-    updateCountry(resultMatch){
-     
-        const homeCountry = this.getTeamOfName(resultMatch.homeTeam);
-        const awayCountry = this.getTeamOfName(resultMatch.awayTeam);
+    updateCountry(resultMatch,numGroup){
         
+        
+        const homeCountry = this.getCountryName(resultMatch.homeTeam,numGroup);
+        const awayCountry = this.getCountryName(resultMatch.awayTeam,numGroup);
+        
+    
         homeCountry.goalsFor+=resultMatch.homeGoals;
         homeCountry.goalAgainst+=resultMatch.awayGoals;
         awayCountry.goalAgainst+=resultMatch.homeGoals;
         awayCountry.goalsFor+=resultMatch.awayGoals;
 
+        
 
         if (resultMatch.homeGoals > resultMatch.awayGoals){
-            homeCountry.points+=this.config.pointsWins;
+            homeCountry.points+=this.config.pointsWin;
             homeCountry.matchesWon+=1;
             awayCountry.points+=this.config.pointsLost;
             awayCountry.matchesLost+=1;
+           
 
         }else if(resultMatch.homeGoals < resultMatch.awayGoals){
-            awayCountry.points+=this.config.pointsWins;
+            awayCountry.points+=this.config.pointsWin;
             awayCountry.matchesWon+=1;
             homeCountry.points+=this.config.pointsLost;
             homeCountry.matchesLost+=1;
+            
 
         }else{
 
             awayCountry.points+=this.config.pointsDraw;
-            awayCountry.matchesDrawn+=1;
+            awayCountry.matchesDraw+=1;
             homeCountry.points+=this.config.pointsDraw;
-            homeCountry.matchesDrawn+=1;
+            homeCountry.matchesDraw+=1;
+            
         }
 
     }
 
-    getLeagueStandings(){
+    getLeagueStandings(numGroup){
+        
 
-        this.groups.sort(function(teamA,teamB){
-
+        this.groups[numGroup].sort(function(teamA,teamB){
+           
             if (teamA.points>teamB.points){
 
                 return -1;
@@ -129,11 +133,19 @@ export default class Groups extends WorldCup{
             }
 
         });
-        /*console.log('standings');
-        console.table(this.groups);*/
+        console.log('standings');
+        console.table(this.groups[numGroup]);
+
+        
+        
+        
+  
+
+  
+
+    
+
     }
-
-
     
 
 }

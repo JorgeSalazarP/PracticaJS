@@ -15,6 +15,9 @@ Array.prototype.shuffle=function()
 
 export const LOCAL_COUNTRY = 0;
 export const AWAY_COUNTRY = 1;
+import {letterGroup} from '../index.js';
+
+
 
 
 
@@ -193,29 +196,63 @@ export default class WorldCup{
         
         
     } 
-    startWorldCup(){
-      
-        this.schedule.forEach(matchGroupDay=>{
+    startLeagueWorldCup(){
+        
+       this.groups.forEach((group,index)=>{
 
-            const matchGroupSummary = {
+            console.log(`GRUPO ${letterGroup[index]}`);
+            console.log('------------');
+           
+            this.matchesPerDay(index); 
+           
 
-                result:[],
-                standings:null
-            }
-            matchGroupDay.forEach(match=>{
-
-                const resultMatch = this.playMatch(match);
-                this.updateCountry(resultMatch);
-                matchGroupSummary.result.push(resultMatch);
-            
-            });
-
-            this.getLeagueStandings();
-            matchGroupSummary.standings=this.groups.map(group=>Object.assign({},group));
-            this.summaries.push(matchGroupSummary);
         });
-       
+        
     }
+
+    
+    matchesPerDay(numGroup){
+      
+        this.schedulePerGroup[numGroup].forEach(matchDay =>{
+
+            const matchDaySummary = {
+
+                results:[],
+                standings:null,
+
+            }
+        
+
+                /*Capturamos los dos partidos de la jornada*/
+            const matchOneLocal = matchDay[0][0];
+            const matchOneAway = matchDay[0][1];
+            const matchTwoLocal = matchDay[1][0];
+            const matchTwoAway = matchDay[1][1];
+
+            let resultMatch = this.playMatch(matchOneLocal,matchOneAway);//juego el partido 1 de la jornada.
+            this.updateCountry(resultMatch,numGroup);
+            matchDaySummary.results.push(resultMatch);
+            resultMatch = this.playMatch(matchTwoLocal,matchTwoAway);//juego el partido 2 de la segunda jornada.
+            this.updateCountry(resultMatch,numGroup);
+            matchDaySummary.results.push(resultMatch);//Resumen de la jornada.*/
+            this.getLeagueStandings(numGroup);
+            matchDaySummary.standings = this.groups[numGroup].map(team=> Object.assign({}, team));
+            this.summaries.push(matchDaySummary);
+
+
+            
+
+
+
+        })
+            
+       
+      
+        
+
+    }
+       
+   
     playMatch(match){
 
         throw new Error ('Play method not implemented');
