@@ -200,8 +200,8 @@ export default class WorldCup{
         
        this.groups.forEach((group,index)=>{
 
-            console.log(`GRUPO ${letterGroup[index]}`);
-            console.log('------------');
+            /*console.log(`GRUPO ${letterGroup[index]}`);
+            console.log('------------');*/
            
             this.matchesPerDay(index); 
            
@@ -213,6 +213,7 @@ export default class WorldCup{
     
     matchesPerDay(numGroup){
       
+        
         this.schedulePerGroup[numGroup].forEach(matchDay =>{
 
             const matchDaySummary = {
@@ -221,27 +222,18 @@ export default class WorldCup{
                 standings:null,
 
             }
-        
-
-                /*Capturamos los dos partidos de la jornada*/
-            const matchOneLocal = matchDay[0][0];
-            const matchOneAway = matchDay[0][1];
-            const matchTwoLocal = matchDay[1][0];
-            const matchTwoAway = matchDay[1][1];
-
-            let resultMatch = this.playMatch(matchOneLocal,matchOneAway);//juego el partido 1 de la jornada.
+            /*Capturamos los dos partidos de cada jornada*/    
+            let resultMatch = this.playMatch(matchDay[0][0],matchDay[0][1]);//juego el partido 1 de la jornada.
             this.updateCountry(resultMatch,numGroup);
             matchDaySummary.results.push(resultMatch);
-            resultMatch = this.playMatch(matchTwoLocal,matchTwoAway);//juego el partido 2 de la segunda jornada.
+            resultMatch = this.playMatch(matchDay[1][0],matchDay[1][1]);//juego el partido 2 de la segunda jornada.
             this.updateCountry(resultMatch,numGroup);
-            matchDaySummary.results.push(resultMatch);//Resumen de la jornada.*/
+            matchDaySummary.results.push(resultMatch);
+            
+
             this.getLeagueStandings(numGroup);
             matchDaySummary.standings = this.groups[numGroup].map(team=> Object.assign({}, team));
             this.summaries.push(matchDaySummary);
-
-
-            
-
 
 
         })
@@ -251,7 +243,8 @@ export default class WorldCup{
         
 
     }
-       
+    
+
    
     playMatch(match){
 

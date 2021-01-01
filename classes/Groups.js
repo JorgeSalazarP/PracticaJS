@@ -61,7 +61,6 @@ export default class Groups extends WorldCup{
 
     updateCountry(resultMatch,numGroup){
         
-        
         const homeCountry = this.getCountryName(resultMatch.homeTeam,numGroup);
         const awayCountry = this.getCountryName(resultMatch.awayTeam,numGroup);
         
@@ -133,8 +132,8 @@ export default class Groups extends WorldCup{
             }
 
         });
-        console.log('standings');
-        console.table(this.groups[numGroup]);
+        /*console.log('standings');
+        console.table(this.groups[numGroup]);*/
 
         
         
