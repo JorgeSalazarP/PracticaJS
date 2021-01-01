@@ -29,7 +29,7 @@ export default class Groups extends WorldCup{
 
             points:0,
             goalsFor:0,
-            goalAgainst:0,
+            goalsAgainst:0,
             ...customizedCountry
         }
         
@@ -66,8 +66,8 @@ export default class Groups extends WorldCup{
         
     
         homeCountry.goalsFor+=resultMatch.homeGoals;
-        homeCountry.goalAgainst+=resultMatch.awayGoals;
-        awayCountry.goalAgainst+=resultMatch.homeGoals;
+        homeCountry.goalsAgainst+=resultMatch.awayGoals;
+        awayCountry.goalsAgainst+=resultMatch.homeGoals;
         awayCountry.goalsFor+=resultMatch.awayGoals;
 
         
@@ -111,8 +111,8 @@ export default class Groups extends WorldCup{
                 return 1;
             }else{
 
-               const goalsDiffA=teamA.goalsFor - teamB.goalAgainst;
-               const goalsDiffB=teamB.goalsFor - teamA.goalAgainst;
+               const goalsDiffA=teamA.goalsFor - teamB.goalsAgainst;
+               const goalsDiffB=teamB.goalsFor - teamA.goalsAgainst;
 
                if (goalsDiffA > goalsDiffB ) {
                    
@@ -132,14 +132,11 @@ export default class Groups extends WorldCup{
             }
 
         });
-        /*console.log('standings');
-        console.table(this.groups[numGroup]);*/
+       
 
         
         
         
-  
-
   
 
     

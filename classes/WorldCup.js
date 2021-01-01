@@ -15,7 +15,7 @@ Array.prototype.shuffle=function()
 
 export const LOCAL_COUNTRY = 0;
 export const AWAY_COUNTRY = 1;
-import {letterGroup} from '../index.js';
+
 
 
 
@@ -200,11 +200,7 @@ export default class WorldCup{
         
        this.groups.forEach((group,index)=>{
 
-            /*console.log(`GRUPO ${letterGroup[index]}`);
-            console.log('------------');*/
-           
-            this.matchesPerDay(index); 
-           
+            this.matchesPerDay(index); // PARA CADA GRUPO           
 
         });
         
@@ -255,7 +251,7 @@ export default class WorldCup{
         throw new Error ('updateCountry method not implemented');
     }
 
-   getLeagueStandings(){
+    getLeagueStandings(){
 
         throw new Error ('getLeagueStandings method not implemented');
 

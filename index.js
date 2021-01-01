@@ -2,7 +2,7 @@ import {countriesWorldCup} from './countries.js';
 import WorldCup from './classes/WorldCup.js';
 import Groups from './classes/Groups.js';
 
-export const letterGroup =['A','B','C','D','E','F','G','H'];
+const letterGroup =['A','B','C','D','E','F','G','H'];
 
 const championShip = new Groups('World Cup Spain 2021',countriesWorldCup);
 
@@ -59,7 +59,20 @@ function resultsPerGroup(i,day){
         if(index === i){
     
             showResultPerDayStandings(day,numGroup,summary.results); 
-            console.table(summary.standings);
+           
+            console.table(summary.standings.map(teamCountry => {
+                return {
+                    Country: teamCountry.nameCountry,
+                    Points: teamCountry.points,
+                    PlayedMatches: teamCountry.matchesWon + teamCountry.matchesDraw + teamCountry.matchesLost,
+                    Won: teamCountry.matchesWon,
+                    Drawn: teamCountry.matchesDraw,
+                    Lost: teamCountry.matchesLost,
+                    GoalsFor: teamCountry.goalsFor,
+                    GoalsAgainst: teamCountry.goalsAgainst,
+                    GoalsDiff: teamCountry.goalsFor - teamCountry.goalsAgainst
+                }
+            }));
             numGroup++;
             i+=3;
     
@@ -86,63 +99,8 @@ function showResultPerDayStandings(scheduleDay,numGroup,summaryPerGroup){
 
 
 
-// MOSTRAMOS LOS RESULTADOS DE LA JORNADA 1 DE CADA GRUPO
-/*let numGroup=0;
-
-championShip.summaries.forEach((summary,index)=>{
-
-    if(index %3==0){
-        
-        showResultPerDayStandings('1',numGroup,summary.results);
-        console.table(summary.standings);
-        numGroup++;
-    }
-   
-});
 
 
-*/
-
-
-
-
-
-/*
-
-// MOSTRAMOS LOS RESULTADOS DE LA JORNADA 2 DE CADA GRUPO
-let i=1;
-numGroup=0;
-
-championShip.summaries.forEach((summary,index)=>{
-
-    if(index === i){
-
-        showResultPerDayStandings('2',numGroup,summary.results);
-        console.table(summary.standings);
-        numGroup++;
-        i+=3;
-
-    }
-
-});
-
-*/
-/*
-i=2;
-numGroup=0;
-championShip.summaries.forEach((summary,index)=>{
-
-    if(index === i){
-
-        showResultPerDayStandings('3',numGroup,summary.results);
-        console.table(summary.standings);
-        numGroup++;
-        i+=3;
-    
-    }
-
-});
-*/
 
 
 
