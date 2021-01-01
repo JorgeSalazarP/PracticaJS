@@ -39,14 +39,13 @@ function showMatchesGroup(index){
    
 }
 
-
 championShip.startLeagueWorldCup();// COMIENZA EL CAMPEONATO
 
 //MOSTRAMOS LOS RESULTADOS POR JORNADAS Y GRUPOS.
 for(let i=0;i<championShip.groups[0].length-1;i++){ //COGEMOS LA LONGITUD DE CUALQUIER GRUPO.
 
     resultsPerGroup(i,i+1); // i+1 es la jornada. 
-                            //i es mi contador para comparar con el índice del array de arrays de resultados.
+                            //i es el contador para comparar con el índice del array de arrays de resultados.
 
 }
 
@@ -97,10 +96,21 @@ function showResultPerDayStandings(scheduleDay,numGroup,summaryPerGroup){
 }
 
 
+let roundOfSexteen = []; // OCTAVOS DE FINAL.
+championShip.groups.forEach((group)=>{
 
+    group.forEach((name,index)=>{ // de cada grupo guardo los dos primeros clasificados.
 
+        if(index===0 || index===1){
 
-
+            roundOfSexteen.push(name.nameCountry);
+        
+        }
+    });
+    
+   
+});
+console.log(roundOfSexteen);
 
 
 
