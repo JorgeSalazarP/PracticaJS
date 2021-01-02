@@ -33,6 +33,10 @@ export default class WorldCup{
         this.GroupsWorldCup(countries);
         
         this.summaries=[];
+
+        this.scheduleRoundOfSexteen=[];
+        
+  
         
         
     }
@@ -234,13 +238,87 @@ export default class WorldCup{
 
         })
             
-       
-      
         
-
     }
     
+    roundOfSexteen(){
 
+        this.teamsQualifiedSexteen();
+        this.initScheduleRoundSexteen();
+        this.scheduleRoundSexteen();
+
+
+    }
+    teamsQualifiedSexteen(){
+
+        this.roundOfSexteen=[];
+        this.groups.forEach((group)=>{
+
+            group.forEach((name,index)=>{ // de cada grupo guardo los dos primeros clasificados.
+        
+                if(index===0 || index===1){
+        
+                    this.roundOfSexteen.push(name.nameCountry);
+                
+                }
+            });
+           
+        });
+
+        console.log(this.roundOfSexteen);
+    }
+   
+    initScheduleRoundSexteen(){ //ORGANIZAMOS EL ARRAY DE OCTAVOS DE FINAL.
+
+        this.matchesRoundOfSexteen=[];
+        let num=3;/*Necesitamos un tres para ordenar los partidos de una parte el cuadro y que no se encuentren los equipos de un mismo grupo hasta la final.*/
+        for(let i=1;i>=0;i--){ // NECESITO RECORRER DOS VECES EL ARRAY DE OCTAVOS DE FINAL PARA ORDENAR LOS PARTIDOS.
+
+            this.compositionRoundSexteen(i,num);
+            num=1; //Ahora necesitamos un uno 
+                
+        }
+        console.log(this.matchesRoundOfSexteen);
+
+    }
+
+    compositionRoundSexteen(i,num){
+        //Agrupamos los cruces, cuando i=1 1A-2B, 1C-2D, 1E-2F Y 1G-2H
+        //Agrupamos los cruces, cuando i=0 1B-2A, 1D-2C, 1F-2E Y 1H-2G
+        this.roundOfSexteen.forEach((country,index)=>{
+
+            if(i===1){
+
+                this.matchesRoundOfSexteen.push(country);
+                this.matchesRoundOfSexteen.push(this.roundOfSexteen[index+num]);
+            }
+            if(i===4){
+
+                i=0;
+            }
+            i++;
+
+        });
+
+    }
+
+
+    scheduleRoundSexteen(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS OCTAVOS DE FINAL
+
+        const matchesRoundSexteen = [];
+        for (let i=0;i<this.matchesRoundOfSexteen.length/2;i++){
+            
+            const match = ['',''];
+            matchesRoundSexteen.push(match);
+        }
+        this.scheduleRoundOfSexteen.push(matchesRoundSexteen);
+        console.log(this.scheduleRoundOfSexteen);
+        
+    }
+
+
+
+    
    
     playMatch(match){
 
