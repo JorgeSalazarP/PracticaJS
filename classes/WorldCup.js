@@ -123,9 +123,7 @@ export default class WorldCup{
 
     scheduleLocalCountries(namesCountriesGroup){
         
-        
         const maxHomeTeams = namesCountriesGroup.length-2;
-        
         let teamIndex=0;
 
            this.schedule.forEach(matchDay =>{
@@ -139,8 +137,6 @@ export default class WorldCup{
                 }
             });
         });
-
-    
         
     }
 
@@ -213,7 +209,6 @@ export default class WorldCup{
     
     matchesPerDay(numGroup){
       
-        
         this.schedulePerGroup[numGroup].forEach(matchDay =>{
 
             const matchDaySummary = {
@@ -245,7 +240,8 @@ export default class WorldCup{
 
         this.teamsQualifiedSexteen();
         this.initScheduleRoundSexteen();
-        this.scheduleRoundSexteen();
+        this.setScheduleRoundSexteen();
+       // this.scheduleRoundSexteen();
 
 
     }
@@ -303,20 +299,33 @@ export default class WorldCup{
     }
 
 
-    scheduleRoundSexteen(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS OCTAVOS DE FINAL
+    setScheduleRoundSexteen(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS OCTAVOS DE FINAL
 
-        const matchesRoundSexteen = [];
-        for (let i=0;i<this.matchesRoundOfSexteen.length/2;i++){
-            
-            const match = ['',''];
-            matchesRoundSexteen.push(match);
-        }
-        this.scheduleRoundOfSexteen.push(matchesRoundSexteen);
-        console.log(this.scheduleRoundOfSexteen);
+        let matches = [];
+        let j=true;
+        for(let i=0;i<this.matchesRoundOfSexteen.length;i++){ //Recorremos el array con los equipos clasificador para octavos de final.
+
+            if(j){ // Necesitamos que una vez entre y otra no.
+                 
+                matches.push(this.matchesRoundOfSexteen.slice(i,i+2));
+                j=false;
+                this.scheduleRoundOfSexteen.push(matches);
+                matches=[];
+                
+            }else{
+
+                j=true;
+            }
+
+       } 
+       
+
+        console.table(this.scheduleRoundOfSexteen);
+
+        
+
         
     }
-
-
 
     
    
