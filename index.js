@@ -28,12 +28,8 @@ function showMatchesGroup(index){
     championShip.schedulePerGroup[index].forEach(matchDay=>{
         console.log('');
         console.log(`Jornada ${i+1}`);
-
-        matchDay.forEach(match=>{
-
-            console.log(match.join(' vs '));
-        });
-
+        
+        showMatches(matchDay);
         i++;
     });
     console.log('');
@@ -102,6 +98,13 @@ export function showResults(result){
     console.log(`${result.homeTeam} ${result.homeGoals} - ${result.awayTeam} ${result.awayGoals}`);
 }
 
+export function showMatches(matches){
+
+    matches.forEach(match=>{
+
+        console.log(match.join(' vs '));
+    });
+}
 
 
 

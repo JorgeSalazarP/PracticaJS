@@ -1,14 +1,13 @@
-import {championShip,showResults} from './index.js';
+import {championShip,showResults,showMatches} from './index.js';
 
 
 export default function playOff(){
     
-    championShip.roundOfSexteen();/////////// OCTAVOS DE FINAL///////////////////////
+    /////////////////// OCTAVOS DE FINAL///////////////////////
+    championShip.roundOfSexteen();
     championShip.scheduleRoundOfSexteen.forEach(matches=>{
     
-        matches.forEach(match=>{
-            console.log(match.join(' vs '));
-        });
+        showMatches(matches);
 
     });
 
@@ -21,15 +20,50 @@ export default function playOff(){
     });
 
    
+    ////////////////// CUARTOS DE FINAL///////////////////////
+    championShip.roundOfQuarterFinal();
+    console.log('');
+    championShip.scheduleRoundOfQuarter.forEach(matches=>{
+    
+        showMatches(matches);
 
-    championShip.startRoundOfQuarterFinal();/////////// CUARTOS DE FINAL///////////////////////
+    });
 
-    /*console.log('');
-    championShip.playedMatchesRoundSexteen.forEach(result=>{
+    championShip.startRoundOfQuarter();
+    console.log('');
+    championShip.playedMatchesRoundQuarter.forEach(result=>{
 
         showResults(result);
        
-    })*/
+    });
+
+    /////////////////// SEMIFINALES ///////////////////////
+    championShip.roundSemiFinals();
+    console.log('');
+    championShip.scheduleRoundOfSemiFinals.forEach(matches=>{
+    
+        showMatches(matches);
+
+    });
+
+    championShip.startRoundOfSemiFinals();
+    console.log('');
+    championShip.playedMatchesRoundSemiFinals.forEach(result=>{
+
+        showResults(result);
+       
+    });
+
+
+     ///////////////////// FINAL /////////////////////////
+     championShip.roundFinal();
+     console.log('');
+     console.log(`${championShip.roundFinal[0]} vs ${championShip.roundFinal[1]}`);
+     console.log('');
+     console.log(`¡${championShip.playedMatchFinal} campeón del mundo!`);
+     
+    
+
 
 }
 
