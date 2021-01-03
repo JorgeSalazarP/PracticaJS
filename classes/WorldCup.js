@@ -16,12 +16,6 @@ Array.prototype.shuffle=function()
 export const LOCAL_COUNTRY = 0;
 export const AWAY_COUNTRY = 1;
 
-
-
-
-
-
-
 export default class WorldCup{
 
     constructor (nameChampionShip,countries=[]){
@@ -31,7 +25,7 @@ export default class WorldCup{
         this.schedule=[];
         this.schedulePerGroup=[];
         this.GroupsWorldCup(countries);
-        
+
         this.summaries=[];
 
         this.scheduleRoundOfSexteen=[];
@@ -241,10 +235,9 @@ export default class WorldCup{
         this.teamsQualifiedSexteen();
         this.initScheduleRoundSexteen();
         this.setScheduleRoundSexteen();
-       // this.scheduleRoundSexteen();
-
-
+    
     }
+
     teamsQualifiedSexteen(){
 
         this.roundOfSexteen=[];
@@ -308,25 +301,43 @@ export default class WorldCup{
             if(j){ // Necesitamos que una vez entre y otra no.
                  
                 matches.push(this.matchesRoundOfSexteen.slice(i,i+2));
-                j=false;
                 this.scheduleRoundOfSexteen.push(matches);
                 matches=[];
+                j=false;
                 
             }else{
 
                 j=true;
             }
 
-       } 
+        } 
        
 
         console.table(this.scheduleRoundOfSexteen);
-
-        
-
         
     }
 
+    startRoundOfSexteen(){
+        
+        this.scheduleRoundOfSexteen.forEach(matches=>{
+            
+            matches.forEach(team=>{
+
+                let drawnMatch = false;
+                do{ // el partido se vuelve a jugar si empatan
+                    const resultMatch = this.playMatch(team[0],team[1]); //SE ENFRENTAN LOS OCTAVOS DE FINAL
+                    drawnMatch = this.analizeResult(resultMatch);
+                    console.log(resultMatch);
+               
+                }while(drawnMatch);
+                
+
+            });
+
+        });
+        
+        
+    }
     
    
     playMatch(match){
@@ -338,9 +349,16 @@ export default class WorldCup{
         throw new Error ('updateCountry method not implemented');
     }
 
-    getLeagueStandings(){
+    getLeagueStandings(numGroup){
 
         throw new Error ('getLeagueStandings method not implemented');
 
     }
+
+    analizeResult(resultMatch){
+
+        throw new Error ('analizeResult method not implemented');
+
+    }
+
 }

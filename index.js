@@ -1,10 +1,12 @@
 import {countriesWorldCup} from './countries.js';
 import WorldCup from './classes/WorldCup.js';
 import Groups from './classes/Groups.js';
+import playOff from './playOff.js';
 
 const letterGroup =['A','B','C','D','E','F','G','H'];
 
-const championShip = new Groups('World Cup Spain 2021',countriesWorldCup);
+export const championShip = new Groups('World Cup Spain 2021',countriesWorldCup);
+
 
 
 championShip.groups.forEach((group,index)=>{
@@ -92,9 +94,13 @@ function showResultPerDayStandings(scheduleDay,numGroup,summaryPerGroup){
     console.log(' ');
    
 }
+playOff();
 
- // OCTAVOS DE FINAL.
-championShip.roundOfSexteen();
+
+
+
+
+
 
 
 

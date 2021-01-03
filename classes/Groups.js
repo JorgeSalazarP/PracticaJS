@@ -1,6 +1,7 @@
 import WorldCup from './WorldCup.js';
 import {LOCAL_COUNTRY, AWAY_COUNTRY} from './WorldCup.js';
 
+
 export default class Groups extends WorldCup{
     
     constructor (nameChampionShip,countries=[],config={}){
@@ -22,8 +23,7 @@ export default class Groups extends WorldCup{
        
     }
     customizeGroups(nameCountry){
-
-    
+        
         const customizedCountry = super.customizeGroups(nameCountry);
         return{
 
@@ -34,6 +34,7 @@ export default class Groups extends WorldCup{
         }
         
     }
+
     generateGoals(){
 
         return Math.round(Math.random() * 10);
@@ -133,13 +134,19 @@ export default class Groups extends WorldCup{
 
         });
        
-
-        
-        
-        
-  
-
     
+
+    }
+
+    analizeResult(resultMatch){
+
+       
+        if(resultMatch.homeGoals == resultMatch.awayGoals){
+
+            return true;
+        }
+        
+        
 
     }
     
