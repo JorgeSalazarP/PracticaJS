@@ -140,15 +140,26 @@ export default class Groups extends WorldCup{
 
     analizeResult(resultMatch){
 
-       
         if(resultMatch.homeGoals == resultMatch.awayGoals){
 
             return true;
         }
-        
-        
 
     }
     
+
+    winnerTeam(resultMatch){
+        
+        if(resultMatch.homeGoals > resultMatch.awayGoals){
+
+            return resultMatch.homeTeam;
+
+        }else{
+
+            return resultMatch.awayTeam;
+        }
+       
+
+    }
 
 }

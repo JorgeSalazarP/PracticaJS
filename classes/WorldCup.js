@@ -29,6 +29,7 @@ export default class WorldCup{
         this.summaries=[];
 
         this.scheduleRoundOfSexteen=[];
+        this.scheduleRoundOfQuarter=[];
         
   
         
@@ -319,23 +320,71 @@ export default class WorldCup{
 
     startRoundOfSexteen(){
         
+        this.playedMatchesRoundSexteen=[];
         this.scheduleRoundOfSexteen.forEach(matches=>{
             
             matches.forEach(team=>{
 
                 let drawnMatch = false;
+                let resultMatch = [];
                 do{ // el partido se vuelve a jugar si empatan
-                    const resultMatch = this.playMatch(team[0],team[1]); //SE ENFRENTAN LOS OCTAVOS DE FINAL
+                    resultMatch = this.playMatch(team[0],team[1]); //SE ENFRENTAN LOS OCTAVOS DE FINAL
                     drawnMatch = this.analizeResult(resultMatch);
-                    console.log(resultMatch);
                
                 }while(drawnMatch);
                 
+                this.playedMatchesRoundSexteen.push(resultMatch);// GUARDAMOS LOS PARTIDOS SIN EMPATES.
 
             });
 
+            
         });
-        
+      
+    }
+
+
+    startRoundOfQuarterFinal(){
+
+        this.teamsQualifiedQuarter();
+        this.setScheduleRoundQuarter();
+
+    }
+
+
+    teamsQualifiedQuarter(){
+
+        this.roundOfQuarter=[];
+        this.playedMatchesRoundSexteen.forEach(playedMatches=>{
+
+            const qualifiedCountry = this.winnerTeam(playedMatches);
+            this.roundOfQuarter.push(qualifiedCountry);
+           
+        });
+
+    }
+   
+    setScheduleRoundQuarter(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS OCTAVOS DE FINAL
+
+        let matches = [];
+        let j=true;
+        for(let i=0;i<this.roundOfQuarter.length;i++){ //Recorremos el array con los equipos clasificador para octavos de final.
+
+            if(j){ // Necesitamos que una vez entre y otra no.
+                 
+                matches.push(this.roundOfQuarter.slice(i,i+2));
+                this.scheduleRoundOfQuarter.push(matches);
+                matches=[];
+                j=false;
+                
+            }else{
+
+                j=true;
+            }
+
+        } 
+       
+
+        console.table(this.scheduleRoundOfQuarter);
         
     }
     
@@ -358,6 +407,13 @@ export default class WorldCup{
     analizeResult(resultMatch){
 
         throw new Error ('analizeResult method not implemented');
+
+    }
+
+
+    winnerTeam(playedMatches){
+
+        throw new Error ('winnerTeam method not implemented');
 
     }
 

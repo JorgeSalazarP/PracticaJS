@@ -88,7 +88,7 @@ function showResultPerDayStandings(scheduleDay,numGroup,summaryPerGroup){
     console.log(`Resumen Jornada ${scheduleDay}`);
     summaryPerGroup.forEach(result=>{
 
-        console.log(`${result.homeTeam} ${result.homeGoals} - ${result.awayTeam} ${result.awayGoals}`);
+        showResults(result);
 
     });
     console.log(' ');
@@ -97,7 +97,10 @@ function showResultPerDayStandings(scheduleDay,numGroup,summaryPerGroup){
 playOff();
 
 
+export function showResults(result){
 
+    console.log(`${result.homeTeam} ${result.homeGoals} - ${result.awayTeam} ${result.awayGoals}`);
+}
 
 
 
