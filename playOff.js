@@ -56,11 +56,13 @@ export default function playOff(){
 
 
      ///////////////////// FINAL /////////////////////////
-     championShip.roundFinal();
-     console.log('');
-     console.log(`${championShip.roundFinal[0]} vs ${championShip.roundFinal[1]}`);
-     console.log('');
-     console.log(`¡${championShip.playedMatchFinal} campeón del mundo!`);
+    championShip.roundFinal();
+    console.log('');
+    console.log(`${championShip.roundFinal[0]} vs ${championShip.roundFinal[1]}`);
+    console.log('');
+    console.log(`${championShip.resultMatch.homeTeam} ${championShip.resultMatch.homeGoals} - ${championShip.resultMatch.awayTeam} ${championShip.resultMatch.awayGoals}`);
+    console.log('');
+    console.log(`¡${championShip.playedMatchFinal} campeón del mundo!`);
      
     
 

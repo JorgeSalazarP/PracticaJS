@@ -428,7 +428,7 @@ export default class WorldCup{
 
         });
 
-        
+
 
     }
 
@@ -504,20 +504,18 @@ export default class WorldCup{
         this.playedMatchFinal=[];
         
         let drawnMatch = false;
-        let resultMatch = [];
+        this.resultMatch = []; // De esta forma lo llamo desde plalOff.js
         do{ // el partido se vuelve a jugar si empatan
-            resultMatch = this.playMatch(this.roundFinal[0],this.roundFinal[1]); //SE JUEGA LA FINAL
-            drawnMatch = this.analizeResult(resultMatch);
-
+            this.resultMatch = this.playMatch(this.roundFinal[0],this.roundFinal[1]); //SE JUEGA LA FINAL
+            drawnMatch = this.analizeResult(this.resultMatch);
+            
         }while(drawnMatch);
-        this.playedMatchFinal= this.winnerTeam(resultMatch); // GUARDAMOS EL RESULTADO DEL PARTIDO SIN EMPATE.
+        
+        this.playedMatchFinal = this.winnerTeam(this.resultMatch); // GUARDAMOS EL RESULTADO DEL PARTIDO SIN EMPATE.
      
            
      
     }
-
-    
-
 
 
     playMatch(match){
