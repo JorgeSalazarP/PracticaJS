@@ -25,16 +25,8 @@ export default class WorldCup{
         this.schedule=[];
         this.schedulePerGroup=[];
         this.GroupsWorldCup(countries);
-
         this.summaries=[];
-
-        this.scheduleRoundOfSexteen=[];
-        this.scheduleRoundOfQuarter=[];
-        this.scheduleRoundOfSemiFinals=[];
-   
-        
-  
-        
+        this.scheduleRounds=[];
         
     }
 
@@ -42,7 +34,7 @@ export default class WorldCup{
 
     GroupsWorldCup(nameCountries){ //Recibimos el nombre de los países participantes.
 
-        //nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
+        nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
         let i=1;
         let group = []; 
         let nameCountryOfGroup = [];
@@ -101,7 +93,7 @@ export default class WorldCup{
             
         }
 
-        this.schedulePerGroup.push(this.schedule); // UN MISMO CALENDARIO PARA GRUPO
+        this.schedulePerGroup.push(this.schedule); // LA MISMA ESTRUCTURA DE CALENDARIO PARA CADA GRUPO
         
 
         
@@ -218,7 +210,7 @@ export default class WorldCup{
             let resultMatch = this.playMatch(matchDay[0][0],matchDay[0][1]);//juego el partido 1 de la jornada.
             this.updateCountry(resultMatch,numGroup);
             matchDaySummary.results.push(resultMatch);
-            resultMatch = this.playMatch(matchDay[1][0],matchDay[1][1]);//juego el partido 2 de la segunda jornada.
+            resultMatch = this.playMatch(matchDay[1][0],matchDay[1][1]);//juego el partido 2 de la jornada.
             this.updateCountry(resultMatch,numGroup);
             matchDaySummary.results.push(resultMatch);
             
@@ -237,7 +229,7 @@ export default class WorldCup{
 
         this.teamsQualifiedSexteen();
         this.initScheduleRoundSexteen();
-        this.setScheduleRoundSexteen();
+        this.setSchedulePlayOff();
     
     }
 
@@ -257,12 +249,11 @@ export default class WorldCup{
            
         });
 
-        console.log(this.roundOfSexteen);
     }
    
     initScheduleRoundSexteen(){ //ORGANIZAMOS EL ARRAY DE OCTAVOS DE FINAL.
 
-        this.matchesRoundOfSexteen=[];
+        this.matchesPlayOff=[];
         let num=3;/*Necesitamos un tres para ordenar los partidos de una parte el cuadro y que no se encuentren los equipos de un mismo grupo hasta la final.*/
         for(let i=1;i>=0;i--){ // NECESITO RECORRER DOS VECES EL ARRAY DE OCTAVOS DE FINAL PARA ORDENAR LOS PARTIDOS.
 
@@ -270,9 +261,10 @@ export default class WorldCup{
             num=1; //Ahora necesitamos un uno 
                 
         }
-        console.log(this.matchesRoundOfSexteen);
+        
 
     }
+    
 
     compositionRoundSexteen(i,num){
         //Agrupamos los cruces, cuando i=1 1A-2B, 1C-2D, 1E-2F Y 1G-2H
@@ -281,8 +273,8 @@ export default class WorldCup{
 
             if(i===1){
 
-                this.matchesRoundOfSexteen.push(country);
-                this.matchesRoundOfSexteen.push(this.roundOfSexteen[index+num]);
+                this.matchesPlayOff.push(country);
+                this.matchesPlayOff.push(this.roundOfSexteen[index+num]);
             }
             if(i===4){
 
@@ -296,85 +288,36 @@ export default class WorldCup{
     }
 
 
-    setScheduleRoundSexteen(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS OCTAVOS DE FINAL
+    nextRound(){
 
-        let matches = [];
-        let j=true;
-        for(let i=0;i<this.matchesRoundOfSexteen.length;i++){ //Recorremos el array con los equipos .
-
-            if(j){ // Necesitamos que una vez entre y otra no.
-                 
-                matches.push(this.matchesRoundOfSexteen.slice(i,i+2));
-                this.scheduleRoundOfSexteen.push(matches);
-                matches=[];
-                j=false;
-                
-            }else{
-
-                j=true;
-            }
-
-        } 
-       
-
-        console.table(this.scheduleRoundOfSexteen);
-        
-    }
-
-    startRoundOfSexteen(){
-        
-        this.playedMatchesRoundSexteen=[];
-        this.scheduleRoundOfSexteen.forEach(matches=>{
-            
-            matches.forEach(team=>{
-
-                let drawnMatch = false;
-                let resultMatch = [];
-                do{ // el partido se vuelve a jugar si empatan
-                    resultMatch = this.playMatch(team[0],team[1]); //SE ENFRENTAN LOS OCTAVOS DE FINAL
-                    drawnMatch = this.analizeResult(resultMatch);
-               
-                }while(drawnMatch);
-                
-                this.playedMatchesRoundSexteen.push(resultMatch);// GUARDAMOS LOS PARTIDOS SIN EMPATES.
-
-            });
-
-            
-        });
-      
+        this.teamsQualified();
+        this.setSchedulePlayOff();
     }
 
 
-    roundOfQuarterFinal(){
+    teamsQualified(){
 
-        this.teamsQualifiedQuarter();
-        this.setScheduleRoundQuarter();
-    }
-
-
-    teamsQualifiedQuarter(){
-
-        this.roundOfQuarter=[];
-        this.playedMatchesRoundSexteen.forEach(playedMatches=>{
+        this.matchesPlayOff=[];
+        this.playedMatches.forEach(playedMatches=>{
 
             const qualifiedCountry = this.winnerTeam(playedMatches);
-            this.roundOfQuarter.push(qualifiedCountry);
+            this.matchesPlayOff.push(qualifiedCountry);
            
         });
 
     }
    
-    setScheduleRoundQuarter(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS CUARTOS DE FINAL
-
+    setSchedulePlayOff(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LOS CUARTOS DE FINAL
+        this.scheduleRounds=[];
+       
         let matches = [];
         let j=true;
-        for(let i=0;i<this.roundOfQuarter.length;i++){ //Recorremos el array con los equipos clasificados.
+        for(let i=0;i< this.matchesPlayOff.length;i++){ //Recorremos el array con los equipos clasificados.
 
             if(j){ // Necesitamos que una vez entre y otra no.
                  
-                matches.push(this.roundOfQuarter.slice(i,i+2));
-                this.scheduleRoundOfQuarter.push(matches);
+                matches.push(this.matchesPlayOff.slice(i,i+2));
+                this.scheduleRounds.push(matches);
                 matches=[];
                 j=false;
                 
@@ -387,45 +330,15 @@ export default class WorldCup{
     
     }
     
-    startRoundOfQuarter(){
 
-        this.playedMatchesRoundQuarter=[];
-        this.scheduleRoundOfQuarter.forEach(matches=>{
-            
-            matches.forEach(team=>{
+    teamsQualified(){
 
-                let drawnMatch = false;
-                let resultMatch = [];
-                do{ // el partido se vuelve a jugar si empatan
-                    resultMatch = this.playMatch(team[0],team[1]); //SE ENFRENTAN LOS CUARTOS DE FINAL
-                    drawnMatch = this.analizeResult(resultMatch);
-               
-                }while(drawnMatch);
-                
-                this.playedMatchesRoundQuarter.push(resultMatch);// GUARDAMOS LOS PARTIDOS SIN EMPATES.
-
-            });
- 
-        });
-    }
-
-
-    roundSemiFinals(){
-
-        this.teamsQualifiedSemiFinals();
-        this.setScheduleRoundSemiFinals();
-    }
-
-
-    teamsQualifiedSemiFinals(){
-
-        this.roundOfSemiFinals=[];
-        this.playedMatchesRoundQuarter.forEach(playedMatches=>{
+        this.matchesPlayOff = [];
+        this.playedMatches.forEach(playedMatches=>{
 
             const qualifiedCountry = this.winnerTeam(playedMatches);
-            this.roundOfSemiFinals.push(qualifiedCountry);
-           
-
+            this.matchesPlayOff.push(qualifiedCountry);
+        
         });
 
 
@@ -433,46 +346,22 @@ export default class WorldCup{
     }
 
 
-    setScheduleRoundSemiFinals(){ //  // REALIZAMOS LA ESTRUCTURA DEL CALENDARIO DE LAS SEMIFINALES
+    startRoundPlayOff(){
 
-        let matches = [];
-        let j=true;
-        for(let i=0;i<this.roundOfSemiFinals.length;i++){ //Recorremos el array con los equipos clasificados.
-
-            if(j){ // Necesitamos que una vez entre y otra no.
-                 
-                matches.push(this.roundOfSemiFinals.slice(i,i+2));
-                this.scheduleRoundOfSemiFinals.push(matches);
-                matches=[];
-                j=false;
-                
-            }else{
-
-                j=true;
-            }
-
-        } 
-        
-      
-    }
-
-
-    startRoundOfSemiFinals(){
-
-        this.playedMatchesRoundSemiFinals=[];
-        this.scheduleRoundOfSemiFinals.forEach(matches=>{
+        this.playedMatches=[];
+        this.scheduleRounds.forEach(matches=>{
             
             matches.forEach(team=>{
 
                 let drawnMatch = false;
                 let resultMatch = [];
                 do{ // el partido se vuelve a jugar si empatan
-                    resultMatch = this.playMatch(team[0],team[1]); //SE JUEGAN LAS SEMIFINALES
+                    resultMatch = this.playMatch(team[0],team[1]); 
                     drawnMatch = this.analizeResult(resultMatch);
                
                 }while(drawnMatch);
                 
-                this.playedMatchesRoundSemiFinals.push(resultMatch);// GUARDAMOS LOS PARTIDOS SIN EMPATES.
+                this.playedMatches.push(resultMatch);// GUARDAMOS LOS PARTIDOS SIN EMPATES.
 
             });
  
@@ -480,40 +369,59 @@ export default class WorldCup{
 
     }
 
+    roundThirdPlace(){
+        this.matchThirdPlace();
+        this.startFinals();
+    }
+    
     roundFinal(){
 
-        this.teamsQualifiedFinal();
-        this.startFinal();
+        this.teamsQualified();
+        this.startFinals();
         
     }
 
-    teamsQualifiedFinal(){
+    matchThirdPlace(){
 
-        this.roundFinal=[];
-        this.playedMatchesRoundSemiFinals.forEach(playedMatches=>{
+        this.matchesPlayOff = [];
+        this.playedMatches.forEach(playedMatches=>{
+
+            const qualifiedCountry = this.loseTeam(playedMatches);
+            this.matchesPlayOff.push(qualifiedCountry);
+        
+        });
+    }
+
+
+    teamsQualified(){
+
+        this.matchesPlayOff = [];
+        this.playedMatches.forEach(playedMatches=>{
 
             const qualifiedCountry = this.winnerTeam(playedMatches);
-            this.roundFinal.push(qualifiedCountry);
-           
+            this.matchesPlayOff.push(qualifiedCountry);
+        
         });
 
     }
 
-    startFinal(){
 
-        this.playedMatchFinal=[];
+    
+    startFinals(){
+
+        this.playedMatchesFinal=[];
         
         let drawnMatch = false;
-        this.resultMatch = []; // De esta forma lo llamo desde plalOff.js
+        this.resultMatch = []; // De esta forma lo llamo desde playOff.js
         do{ // el partido se vuelve a jugar si empatan
-            this.resultMatch = this.playMatch(this.roundFinal[0],this.roundFinal[1]); //SE JUEGA LA FINAL
+            this.resultMatch = this.playMatch(this.matchesPlayOff[0],this.matchesPlayOff[1]); //SE JUEGA EL TERCER Y CUARTO PUESTO Y DESPUÉS LA FINAL
             drawnMatch = this.analizeResult(this.resultMatch);
             
         }while(drawnMatch);
         
-        this.playedMatchFinal = this.winnerTeam(this.resultMatch); // GUARDAMOS EL RESULTADO DEL PARTIDO SIN EMPATE.
+        this.playedMatchesFinal = this.winnerTeam(this.resultMatch); // GUARDAMOS EL RESULTADO DEL PARTIDO SIN EMPATE.
+
      
-           
      
     }
 
@@ -543,6 +451,11 @@ export default class WorldCup{
     winnerTeam(playedMatches){
 
         throw new Error ('winnerTeam method not implemented');
+    }
+
+    loseTeam(playedMatches){
+
+        throw new Error ('loseTeam method not implemented');
 
     }
 

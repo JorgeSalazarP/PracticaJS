@@ -138,7 +138,7 @@ export default class Groups extends WorldCup{
 
     }
 
-    analizeResult(resultMatch){
+    analizeResult(resultMatch){ // Comprobamos si el partido ha quedado empate.
 
         if(resultMatch.homeGoals == resultMatch.awayGoals){
 
@@ -148,7 +148,7 @@ export default class Groups extends WorldCup{
     }
     
 
-    winnerTeam(resultMatch){
+    winnerTeam(resultMatch){ // Capturamos al equipo ganador de los partidos.
         
         if(resultMatch.homeGoals > resultMatch.awayGoals){
 
@@ -161,5 +161,20 @@ export default class Groups extends WorldCup{
        
 
     }
+
+    loseTeam(resultMatch){ // Capturamos los equipos perdedores para el partido por el tercer y cuarto puesto.
+        
+        if(resultMatch.homeGoals > resultMatch.awayGoals){
+
+            return resultMatch.awayTeam;
+
+        }else{
+
+            return resultMatch.homeTeam;
+        }
+       
+
+    }
+
 
 }

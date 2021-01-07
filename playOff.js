@@ -1,68 +1,66 @@
-import {championShip,showResults,showMatches} from './index.js';
+export const playOff = (championShip,showResults,showMatches)=>{
+    
+    const showRoundsFinal = ()=>{
+        console.log('');
+        console.log(`${championShip.matchesPlayOff[0]} vs ${championShip.matchesPlayOff[1]}`);      
+        console.log('');  
+        console.log('====== Resultado ======');
+        console.log('');
+        console.log(`${championShip.resultMatch.homeTeam} ${championShip.resultMatch.homeGoals} - ${championShip.resultMatch.awayTeam} ${championShip.resultMatch.awayGoals}`);
+    }
 
+    const matchesAndResultsPlayOff = ()=>{
+        console.log('');
+        championShip.scheduleRounds.forEach(matches=>{
+    
+            showMatches(matches);
 
-export default function playOff(){
+        });
+        console.log('');
+        championShip.startRoundPlayOff();
+        console.log('====== Resultados ======');
+        console.log('');
+        championShip.playedMatches.forEach(result=>{
+
+            showResults(result);
+       
+        });
+    }
+    console.log("==================================================");
+    console.log("====== COMIENZO DE LA FASE DE ELIMINATORIAS ======");
+    console.log("==================================================");
+    console.log('');
     
     /////////////////// OCTAVOS DE FINAL///////////////////////
+    console.log("====== OCTAVOS DE FINAL ======");
     championShip.roundOfSexteen();
-    championShip.scheduleRoundOfSexteen.forEach(matches=>{
-    
-        showMatches(matches);
-
-    });
-
-    championShip.startRoundOfSexteen();
-    console.log('');
-    championShip.playedMatchesRoundSexteen.forEach(result=>{
-
-        showResults(result);
-       
-    });
-
+    matchesAndResultsPlayOff();
    
     ////////////////// CUARTOS DE FINAL///////////////////////
-    championShip.roundOfQuarterFinal();
     console.log('');
-    championShip.scheduleRoundOfQuarter.forEach(matches=>{
-    
-        showMatches(matches);
-
-    });
-
-    championShip.startRoundOfQuarter();
-    console.log('');
-    championShip.playedMatchesRoundQuarter.forEach(result=>{
-
-        showResults(result);
-       
-    });
+    console.log("====== CUARTOS DE FINAL ======");
+    championShip.nextRound();
+    matchesAndResultsPlayOff();
 
     /////////////////// SEMIFINALES ///////////////////////
-    championShip.roundSemiFinals();
     console.log('');
-    championShip.scheduleRoundOfSemiFinals.forEach(matches=>{
-    
-        showMatches(matches);
+    console.log("====== SEMIFINALES ======");
+    championShip.nextRound();
+    matchesAndResultsPlayOff();
 
-    });
-
-    championShip.startRoundOfSemiFinals();
+     ///////////////////// TERCER Y CUARTO PUESTO /////////////////////////
     console.log('');
-    championShip.playedMatchesRoundSemiFinals.forEach(result=>{
+    console.log("====== TERCER Y CUARTO PUESTO ======");
+    championShip.roundThirdPlace();
+    showRoundsFinal();
 
-        showResults(result);
-       
-    });
-
-
-     ///////////////////// FINAL /////////////////////////
+    ///////////////////// FINAL /////////////////////////
+    console.log('');
+    console.log("====== FINAL ======");
     championShip.roundFinal();
+    showRoundsFinal();
     console.log('');
-    console.log(`${championShip.roundFinal[0]} vs ${championShip.roundFinal[1]}`);
-    console.log('');
-    console.log(`${championShip.resultMatch.homeTeam} ${championShip.resultMatch.homeGoals} - ${championShip.resultMatch.awayTeam} ${championShip.resultMatch.awayGoals}`);
-    console.log('');
-    console.log(`¡${championShip.playedMatchFinal} campeón del mundo!`);
+    console.log(`¡${(championShip.playedMatchesFinal).toUpperCase()} campeón del mundo!`);
      
     
 
