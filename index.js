@@ -7,7 +7,7 @@ const letterGroup =['A','B','C','D','E','F','G','H'];
 
 const championShip = new Groups('COPA DEL MUNDO ESPAÑA 2021',countriesWorldCup);
 
-
+//////////////////////////FUNCTIONS////////////////////////////////////
 const showResults = (result)=>{
 
     console.log(`${result.homeTeam} ${result.homeGoals} - ${result.awayTeam} ${result.awayGoals}`);
@@ -15,10 +15,7 @@ const showResults = (result)=>{
 
 const showMatches = (matches)=>{
 
-    matches.forEach(match=>{
-
-        console.log(match.join(' vs '));
-    });
+    matches.forEach(match=>console.log(match.join(' vs ')));
 }
 
 const showMatchesGroup = (index) =>{
@@ -34,8 +31,6 @@ const showMatchesGroup = (index) =>{
     console.log('');
   
 }
-
-
 
 const resultsPerGroup = (i,day)=>{
 
@@ -70,11 +65,7 @@ const showResultPerDayStandings = (scheduleDay,numGroup,summaryPerGroup)=>{
     console.log('------------');
     console.log(`Resumen Jornada ${scheduleDay}`);
     console.log('');
-    summaryPerGroup.forEach(result=>{
-
-        showResults(result);
-
-    });
+    summaryPerGroup.forEach(result=>showResults(result));
     console.log(' ');
    
 }
@@ -87,10 +78,7 @@ console.log(' ');
 championShip.groups.forEach((group,index)=>{
     console.log(`GRUPO ${letterGroup[index]}`);
     console.log('------------');
-    group.forEach(countries=>{
-       console.log(countries.nameCountry);
-    });
-    
+    group.forEach(countries=>console.log(countries.nameCountry));
     showMatchesGroup(index);
 
 });
@@ -101,8 +89,9 @@ console.log("==================================================");
 console.log(`======COMIENZA LA ${championShip.nameChampionShip}======`);
 console.log("==================================================");
 console.log('');
-championShip.startLeagueWorldCup();// COMIENZA EL CAMPEONATO
+championShip.startLeagueWorldCup();// COMIENZA EL CAMPEONATO 
 
+/**********************************GRUPOS**************************/
 //MOSTRAMOS LOS RESULTADOS POR JORNADAS Y GRUPOS.
 for(let i=0;i<championShip.groups[0].length-1;i++){ //COGEMOS LA LONGITUD DE CUALQUIER GRUPO.
 
@@ -110,8 +99,7 @@ for(let i=0;i<championShip.groups[0].length-1;i++){ //COGEMOS LA LONGITUD DE CUA
 }
 
 
-
-
+//Comienza el playOff
 playOff(championShip,showResults,showMatches);
 
 

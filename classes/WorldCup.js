@@ -24,7 +24,7 @@ export default class WorldCup{
         this.groups=[];
         this.schedule=[];
         this.schedulePerGroup=[];
-        this.GroupsWorldCup(countries);
+        this.groupsWorldCup(countries);
         this.summaries=[];
         this.scheduleRounds=[];
         
@@ -32,7 +32,7 @@ export default class WorldCup{
 
     /**********CREAMOS LOS 8 GRUPOS CON SUS CALENDARIOS Y CUSTOMIZAMOS LOS PAÍSES**********/
 
-    GroupsWorldCup(nameCountries){ //Recibimos el nombre de los países participantes.
+    groupsWorldCup(nameCountries){ //Recibimos el nombre de los países participantes.
 
         nameCountries.shuffle(); // Desordenamos el array antes de configurar los grupos.
         let i=1;
@@ -225,14 +225,7 @@ export default class WorldCup{
         
     }
     
-    roundOfSexteen(){
-
-        this.teamsQualifiedSexteen();
-        this.initScheduleRoundSexteen();
-        this.setSchedulePlayOff();
     
-    }
-
     teamsQualifiedSexteen(){
 
         this.roundOfSexteen=[];
@@ -288,11 +281,7 @@ export default class WorldCup{
     }
 
 
-    nextRound(){
-
-        this.teamsQualified();
-        this.setSchedulePlayOff();
-    }
+   
 
 
     teamsQualified(){
@@ -369,18 +358,7 @@ export default class WorldCup{
 
     }
 
-    roundThirdPlace(){
-        this.matchThirdPlace();
-        this.startFinals();
-    }
-    
-    roundFinal(){
-
-        this.teamsQualified();
-        this.startFinals();
-        
-    }
-
+   
     matchThirdPlace(){
 
         this.matchesPlayOff = [];
@@ -405,8 +383,6 @@ export default class WorldCup{
 
     }
 
-
-    
     startFinals(){
 
         this.playedMatchesFinal=[];
@@ -425,6 +401,31 @@ export default class WorldCup{
      
     }
 
+    roundOfSexteen(){ //OCTAVOS DE FINAL
+
+        this.teamsQualifiedSexteen();
+        this.initScheduleRoundSexteen();
+        this.setSchedulePlayOff();
+    
+    }
+
+    nextRound(){ //CUARTOS Y SEMIFINALES
+
+        this.teamsQualified();
+        this.setSchedulePlayOff();
+    }
+
+    roundThirdPlace(){ // TERCER Y CUARTO PUESTO
+        this.matchThirdPlace();
+        this.startFinals();
+    }
+    
+    roundFinal(){ //FINAL
+        this.teamsQualified();
+        this.startFinals();
+        
+    }
+   
 
     playMatch(match){
 

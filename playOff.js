@@ -11,20 +11,14 @@ export const playOff = (championShip,showResults,showMatches)=>{
 
     const matchesAndResultsPlayOff = ()=>{
         console.log('');
-        championShip.scheduleRounds.forEach(matches=>{
-    
-            showMatches(matches);
+        championShip.scheduleRounds.forEach(matches=>showMatches(matches));
 
-        });
         console.log('');
         championShip.startRoundPlayOff();
         console.log('====== Resultados ======');
         console.log('');
-        championShip.playedMatches.forEach(result=>{
-
-            showResults(result);
+        championShip.playedMatches.forEach(result=>showResults(result));
        
-        });
     }
     console.log("==================================================");
     console.log("====== COMIENZO DE LA FASE DE ELIMINATORIAS ======");
