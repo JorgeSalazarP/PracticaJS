@@ -5,7 +5,7 @@ import {playOff} from './playOff.js';
 
 const letterGroup =['A','B','C','D','E','F','G','H'];
 
-const championShip = new Groups('COPA DEL MUNDO ESPAÑA 2021',countriesWorldCup);
+const championShip = new Groups('COPA DEL MUNDO ESPAÑA 2021',countriesWorldCup); 
 
 //////////////////////////FUNCTIONS////////////////////////////////////
 const showResults = (result)=>{

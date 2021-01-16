@@ -331,7 +331,7 @@ export default class WorldCup{
         });
 
 
-
+        
     }
 
 
