@@ -320,19 +320,7 @@ export default class WorldCup{
     }
     
 
-    teamsQualified(){
-
-        this.matchesPlayOff = [];
-        this.playedMatches.forEach(playedMatches=>{
-
-            const qualifiedCountry = this.winnerTeam(playedMatches);
-            this.matchesPlayOff.push(qualifiedCountry);
-        
-        });
-
-
-        
-    }
+   
 
 
     startRoundPlayOff(){
@@ -371,18 +359,7 @@ export default class WorldCup{
     }
 
 
-    teamsQualified(){
-
-        this.matchesPlayOff = [];
-        this.playedMatches.forEach(playedMatches=>{
-
-            const qualifiedCountry = this.winnerTeam(playedMatches);
-            this.matchesPlayOff.push(qualifiedCountry);
-        
-        });
-
-    }
-
+   
     startFinals(){
 
         this.playedMatchesFinal=[];
